@@ -14,29 +14,11 @@ def about():
 def contact():
     return render_template('contact.html')
 
-@app.route("/pricing")
+@app.route("/post")
 def pricing():
-    return render_template('pricing.html')
+    return render_template('post.html')
 
-@app.route("/service")
-def service():
-    return render_template('service.html')
 
-@app.route("/project")
-def project():
-    return render_template('project.html')
-
-@app.route("/blog-grid")
-def blogGrid():
-    return render_template('blog-grid.html')
-
-@app.route("/blog-sidebar")
-def blogSidebar():
-    return render_template('blog-sidebar.html')
-
-@app.route("/blog-single")
-def blogSingle():
-    return render_template('blog-single.html')
 
 
 
