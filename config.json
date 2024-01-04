@@ -1,0 +1,16 @@
+{
+  "params":
+  {
+    "local_server": "True",
+    "local_uri": "mysql://root:@localhost/crazyblog",
+    "prod_uri": "mysql://root:@localhost/crazyblog",
+    "fb_url": "https://facebook.com",
+    "twtr_url": "https://twitter.com",
+    "git_url": "https://github.com",
+    "blog_name": "Crazy Programerz...",
+    "blog_logo_name": "CrazyBUG's",
+    "tagline": "A Blog Theme by Mad GUY liked by Everyone"
+  }
+
+
+}

@@ -341,7 +341,7 @@ label {
 }
 
 button {
-  border-radius: 0;
+  border-radius: 35px;
 }
 
 button:focus:not(:focus-visible) {
@@ -10569,6 +10569,8 @@ blockquote {
 
 .btn {
   letter-spacing: 0.0625em;
+  border-radius:35px;
+
 }
 
 .form-floating input,
