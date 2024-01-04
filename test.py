@@ -1,47 +1,28 @@
-from flask import Flask, render_template, request
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from flask import Flask 
+from flask_mailman import Mail, EmailMessage
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:@localhost/crazyblog"
-db = SQLAlchemy(app)
+mail = Mail()
 
+def create_app():
+    app = Flask(__name__)
+    app.config["MAIL_SERVER"] = "smtp.gmail.com"
+    app.config["MAIL_PORT"] = 465
+    app.config["MAIL_USERNAME"] = "flasktutorial00@gmail.com"
+    app.config["MAIL_PASSWORD"] = "fl@sktut0"
+    app.config["MAIL_USE_TLS"] = False
+    app.config["MAIL_USE_SSL"] = True
 
-class Contacts(db.Model):
-    '''
-    sno, name phone_num, msg, date, email
-    '''
-    sno = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    phone_num = db.Column(db.String(12), nullable=False)
-    msg = db.Column(db.String(120), nullable=False)
-    date = db.Column(db.String(12), nullable=True)
-    email = db.Column(db.String(20), nullable=False)
+    mail.init_app(app)
 
-@app.route("/")
-def home():
-    return render_template('index.html')
+    @app.route("/")
+    def index():
+        msg = EmailMessage(
+            "Here's the title!",
+            "Body of the email",
+            "from@email.com",
+            ["saharan01kng@email.com"]
+        )
+        msg.send()
+        return "Sent email..."
 
-
-@app.route("/about")
-def about():
-    return render_template('about.html')
-
-
-@app.route("/contact", methods = ['GET', 'POST'])
-def contact():
-    if(request.method=='POST'):
-        '''Add entry to the database'''
-        name = request.form.get('name')
-        email = request.form.get('email')
-        phone = request.form.get('phone')
-        message = request.form.get('message')
-        entry = Contacts(name=name, phone_num = phone, msg = message, date= datetime.now(),email = email )
-        db.session.add(entry)
-        db.session.commit()
-    return render_template('contact.html')
-
-
-app.run(debug=True)
-
-
+    return app
