@@ -35,6 +35,20 @@ class Contact(db.Model):
     msg = db.Column(db.String(120), nullable=False)
     date = db.Column(db.String(12), nullable=True)
 
+class Posts(db.Model):
+    sno = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), nullable=False)
+    subheading = db.Column(db.String(100), nullable=False)
+    written_by = db.Column(db.String(40), nullable=False)
+    slug = db.Column(db.String(21), nullable=False)
+    overview = db.Column(db.String(500), nullable=False)
+    heading_1 = db.Column(db.String(50), nullable=False)
+    content_1 = db.Column(db.String(600), nullable=False)
+    heading_2 = db.Column(db.String(50), nullable=False)
+    content_2 = db.Column(db.String(400), nullable=False)
+    content_3 = db.Column(db.String(400), nullable=False)
+    date = db.Column(db.String(12), nullable=True)
+
 
 @app.route("/")
 def index():
@@ -46,9 +60,12 @@ def about():
     return render_template("about.html", params=params)
 
 
-@app.route("/post")
-def pricing():
-    return render_template("post.html", params=params)
+@app.route("/post/<string:post_slug>", methods=["GET"])
+def post_route(post_slug):
+    post = Posts.query.filter_by(slug=post_slug).first()
+
+    return render_template("post.html", params=params, post=post)
+# http://127.0.0.1:5000/post/first-post..............in order to access post
 
 
 @app.route("/contact", methods=["GET", "POST"])
