@@ -100,6 +100,7 @@ body {
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
   background-color: var(--bs-body-bg);
+  /* background: linear-gradient(to top right, #f4217ed1, #28c694); */
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -10670,6 +10671,7 @@ footer {
 }
 
 header.masthead {
+  box-shadow: 15px 10px 14px 9px rgb(0 0 0 / 70%);
   position: relative;
   margin-bottom: 3rem;
   padding-top: calc(8rem + 57px);
