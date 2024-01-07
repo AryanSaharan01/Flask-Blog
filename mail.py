@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 import json
@@ -63,7 +63,7 @@ def home():
 def about():
     return render_template("about.html", params=params)
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/dashboard", methods=["GET", "POST"])
 def login():
 
     if ('user' in session and session['user'] == params["admin_user"]):
@@ -88,6 +88,14 @@ def allpost():
     return render_template("allposts.html", params=params, posts=posts)
 
 
+@app.route("/post/<string:post_slug>", methods=["GET"])
+def post_route(post_slug):
+    post = Posts.query.filter_by(slug=post_slug).first()
+
+    return render_template("post.html", params=params, post=post)
+# http://127.0.0.1:5000/post/first-post..............in order to access post
+
+
 @app.route("/edit/<string:sno>",  methods=["GET", "POST"])
 def edit(sno):
     if ('user' in session and session['user'] == params["admin_user"]):
@@ -102,6 +110,7 @@ def edit(sno):
             heading_2 = request.form.get('heading_2')
             content_2 = request.form.get('content_2')
             content_3 = request.form.get('content_3')
+            date = datetime.now()
 
             if sno == '0':
                 post = Posts( title=box_title,
@@ -113,25 +122,31 @@ def edit(sno):
                               content_1=content_1,
                               heading_2=heading_2,
                               content_2=content_2,
-                              content_3=content_3
-                              )
+                              content_3=content_3,
+                              date = date  # Add this line
+                )
                 db.session.add(post)
                 db.session.commit()
-        return render_template('edit.html', params = params, sno=sno)
+            else:
+                post = Posts.query.filter_by(sno=sno).first()
+                post.title = box_title
+                post.subheading = subheading
+                post.written_by = written_by,
+                post.slug = slug,
+                post.overview = overview,
+                post.heading_1 = heading_1,
+                post.content_1 = content_1,
+                post.heading_2 = heading_2,
+                post.content_2 = content_2,
+                post.content_3 = content_3,
+                post.date = date
 
+                db.session.commit()
+                return redirect('/edit/'+sno)
 
+        post = Posts.query.filter_by(sno=sno).first()
+        return render_template('edit.html', params = params, post = post)
 
-
-
-
-
-
-@app.route("/post/<string:post_slug>", methods=["GET"])
-def post_route(post_slug):
-    post = Posts.query.filter_by(slug=post_slug).first()
-
-    return render_template("post.html", params=params, post=post)
-# http://127.0.0.1:5000/post/first-post..............in order to access post
 
 
 @app.route("/contact", methods=["GET", "POST"])

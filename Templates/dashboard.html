@@ -26,6 +26,20 @@
         background-color: black;
         box-shadow: 7px 3px 7px 2px rgba(40, 41, 42, 0.39);
     }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        /* Add this line for space between buttons */
+        margin-bottom: 20px;
+        /* Adjust the margin for space below the buttons */
+    }
+
+    .add-post-button,
+    .logout-button {
+        margin: 0;
+        /* Remove default margin to ensure spacing */
+    }
 </style>
 
 <!-- Page Header-->
@@ -47,10 +61,21 @@
         <div class="col-md-10 col-lg-8 col-xl-7">
 
 
-            <H1>Upload a File.!</H1>
+            <H1>⇩..Add new file from here..⇩</H1>
+            <div class="button-container">
+                <a class="btn btn-primary text-uppercase add-post-button" href="/edit/0">Add New Post </a>
+                <a class="btn btn-primary text-uppercase logout-button" href="/logout">Logout </a>
+
+                <!-- <a class="btn btn-primary text-uppercase" href="/edit/0" data-toggle="tooltip" data-placement="top" title="Now you can add posts here">Add Posts</a> -->
+
+            </div>
+            <hr>
+
+            <!-- <H1>Upload a File.!</H1>
             <div class="uploader">
                 We'll add file uploader here
             </div>
+            <hr> -->
 
             <div class="heading">
                 <H1>Welcome... You are logged in!!</H1>
@@ -62,8 +87,8 @@
                         <th>Sno.</th>
                         <th>Title</th>
                         <th>Date</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,10 +103,11 @@
                                 <button>Edit</button>
                             </a>
                         </td>
-                        
+
                         <td><a href="">
-                            <button>Delete</button>
-                        </a></td>
+                                <button>Delete</button>
+                            </a>
+                        </td>
 
 
                     </tr>

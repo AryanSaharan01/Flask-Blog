@@ -1,6 +1,13 @@
 {% extends "layout.html" %}
 {% block body %}
 
+<style>
+    .btn {
+        margin-left: 15vw;
+
+    }
+</style>
+
 
 <!-- Page Header-->
 <header class="masthead" style="background-image: url( {{ url_for('static', filename= 'assets/img/all-post.jpg' ) }} )">
@@ -15,6 +22,15 @@
         </div>
     </div>
 </header>
+
+<div class="d-flex justify-content-between mb-4">
+    <!-- <a class="btn btn-primary text-uppercase" href="#!">⇦ Older Posts</a> -->
+    <a class="btn btn-primary text-uppercase" href="/edit/0">Add Posts </a>
+
+
+    <!-- <a class="btn btn-primary text-uppercase" href="/edit/0" data-toggle="tooltip" data-placement="top" title="Now you can add posts here">Add Posts</a> -->
+
+</div>
 
 
 <!-- Main Content-->
@@ -49,5 +65,13 @@
                     Posts →</a></div> -->
         </div>
     </div>
-</div>
-{% endblock %}
+
+
+
+    <!-- <script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script> -->
+
+    {% endblock %}

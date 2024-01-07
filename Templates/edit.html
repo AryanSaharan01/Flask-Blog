@@ -31,6 +31,19 @@
         margin-bottom: 7vh;
 
     }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;  /* Add this line for space between buttons */
+        margin-bottom: 20px;  /* Adjust the margin for space below the buttons */
+    }
+
+    .add-post-button,
+    .logout-button {
+        margin: 0;  /* Remove default margin to ensure spacing */
+    }
+
+    
 </style>
 
 <!-- Page Header-->
@@ -51,71 +64,94 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
+
+                <div class="button-container">
+                    <a class="btn btn-primary text-uppercase add-post-button" href="/dashboard">Dashboard Home </a>
+                    <a class="btn btn-primary text-uppercase logout-button" href="/logout">Logout </a>
+                </div>
+
                 <div class="heading">
                     <H1>Add/Edit Post..!!</H1>
                 </div>
                 <div class="my-5">
                     <!-- SB Forms Contact Form -->
-                    <form id="contactForm" action="/edit/{{sno}}" method="post">
+                    <form id="contactForm" action="/edit/{{post.sno}}" method="post">
                         <div class="form-floating">
-                            <input class="form-control" id="title" name="title" type="text" placeholder="Enter your Title..."
-                                required />
+                            <input class="form-control" id="title" name="title" type="text"
+                                placeholder="Enter your Title..." value="{{post.title}}">
                             <label for="name">Title</label>
                         </div>
                         <div class="form-floating">
                             <input class="form-control" id="subheading" name="subheading" type="text"
-                                placeholder="Enter your subheading..." required />
+                                placeholder="Enter your subheading..." value="{{post.subheading}}">
                             <label for="email">Subheading</label>
                         </div>
                         <div class="form-floating">
                             <input class="form-control" id="written_by" name="written_by" type="text"
-                                placeholder="Enter Written-by..." required />
+                                placeholder="Enter Written-by..." value="{{post.written_by}}">
                             <label for="email">Written By</label>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" id="slug" name="slug" type="text" placeholder="Enter your slug..."
-                                required />
+                            <input class="form-control" id="slug" name="slug" type="text"
+                                placeholder="Enter your slug..." value="{{post.slug}}">
                             <label for="email">Slug</label>
                         </div>
                         <div class="form-floating">
-                            <textarea class="form-control" id="overview" name="overview" placeholder="Enter Overview..."
-                                style="height: 12rem" required></textarea>
+                            <textarea class="form-control" id="overview" name="overview" type="text"
+                                placeholder="Enter Overview..." style="height: 12rem" > {{post.overview}} </textarea>
                             <label for="email">Overview</label>
                         </div>
                         <div class="form-floating">
                             <input class="form-control" id="heading_1" name="heading_1" type="text"
-                                placeholder="Enter your First heading..." required />
+                                placeholder="Enter your First heading..." value="{{post.heading_1}}">
                             <label for="email">First Heading</label>
                         </div>
                         <div class="form-floating">
                             <textarea class="form-control" id="content_1" name="content_1"
-                                placeholder="Enter your First Comment here..." style="height: 12rem" required></textarea>
+                                placeholder="Enter your First Comment here..." style="height: 12rem"> {{post.content_1}} </textarea>
                             <label for="phone">First Content</label>
                         </div>
                         <div class="form-floating">
                             <input class="form-control" id="heading_2" name="heading_2" type="text"
-                                placeholder="Enter your Second heading..." required />
+                                placeholder="Enter your Second heading..." value="{{post.heading_2}}">
                             <label for="email">Second Heading</label>
                         </div>
                         <div class="form-floating">
                             <textarea class="form-control" id="content_2" name="content_2"
-                                placeholder="Enter your Second Comment here..." style="height: 12rem" required></textarea>
+                                placeholder="Enter your Second Comment here..." style="height: 12rem"
+                                >{{post.content_2}}
+                            </textarea>
                             <label for="phone">Second Content</label>
                         </div>
                         <div class="form-floating">
                             <textarea class="form-control" id="content_3" name="content_3"
-                                placeholder="Enter your Third Comment here..." style="height: 12rem" required></textarea>
+                                placeholder="Enter your Third Comment here..." style="height: 12rem"
+                                >  {{post.content_3}} 
+                            </textarea>
                             <label for="phone">Third Content</label>
                         </div>
-        
+
                         <br />
                         <!-- Submit Button -->
                         <button class="btn btn-primary text-uppercase" id="submitButton" type="button">Submit</button>
-        
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </main>
+
+
+<!-- Include necessary JavaScript for form validation and submission -->
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+<script>
+    // Enable the "Send" button on form submission
+    document.getElementById("submitButton").addEventListener("click", function () {
+        document.getElementById("contactForm").submit();
+    });
+</script>
+
+
 {% endblock %}
