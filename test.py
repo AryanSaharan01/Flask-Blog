@@ -65,7 +65,7 @@ def home():
 def about():
     return render_template("about.html", params=params)
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/dashboard", methods=["GET", "POST"])
 def login():
 
     if ('user' in session and session['user'] == params["admin_user"]):
@@ -173,7 +173,7 @@ def uploader():
 @app.route("/logout")
 def logout():
     session.pop('user')
-    return redirect('/login')
+    return redirect('/dashboard')
 
 
 @app.route("/delete/<string:sno>",  methods=["GET", "POST"])
@@ -182,7 +182,7 @@ def delete(sno):
         post = Posts.query.filter_by(sno=sno).first()
         db.session.delete(post)
         db.session.commit()
-    return redirect('/login')
+    return redirect('/dashboard')
 
 
 @app.route("/contact", methods=["GET", "POST"])
