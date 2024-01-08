@@ -96,10 +96,10 @@ def post_route(post_slug):
 # http://127.0.0.1:5000/post/first-post..............in order to access post
 
 
-@app.route("/edit/<string:sno>",  methods=["GET", "POST"])
+@app.route("/edit/<string:sno>", methods=['GET', 'POST'])
 def edit(sno):
-    if ('user' in session and session['user'] == params["admin_user"]):
-        if request.method == 'POST':
+    if "user" in session and session['user'] == params['admin_user']:
+        if request.method == "POST":
             box_title = request.form.get('title')
             subheading = request.form.get('subheading')
             written_by = request.form.get('written_by')
@@ -112,40 +112,40 @@ def edit(sno):
             content_3 = request.form.get('content_3')
             date = datetime.now()
 
-            if sno == '0':
-                post = Posts( title=box_title,
-                              subheading=subheading,
-                              written_by=written_by,
-                              slug=slug,
-                              overview=overview,
-                              heading_1=heading_1,
-                              content_1=content_1,
-                              heading_2=heading_2,
-                              content_2=content_2,
-                              content_3=content_3,
-                              date = date  # Add this line
-                )
-                db.session.add(post)
-                db.session.commit()
-            else:
-                post = Posts.query.filter_by(sno=sno).first()
-                post.title = box_title
-                post.subheading = subheading
-                post.written_by = written_by,
-                post.slug = slug,
-                post.overview = overview,
-                post.heading_1 = heading_1,
-                post.content_1 = content_1,
-                post.heading_2 = heading_2,
-                post.content_2 = content_2,
-                post.content_3 = content_3,
-                post.date = date
+        if sno == '0':
+            post = Posts(title=box_title,
+                    subheading=subheading,
+                    written_by=written_by,
+                    slug=slug,
+                    overview=overview,
+                    heading_1=heading_1,
+                    content_1=content_1,
+                    heading_2=heading_2,
+                    content_2=content_2,
+                    content_3=content_3,
+                    date=date
+                         )
+            db.session.add(post)
+            db.session.commit()
+        else:
+            post = Posts.query.filter_by(sno=sno).first()
+            post.title = box_title
+            post.subheading = subheading
+            post.written_by = written_by
+            post.slug = slug
+            post.overview = overview
+            post.heading_1 = heading_1
+            post.content_1 = content_1
+            post.heading_2 = heading_2
+            post.content_2 = content_2
+            post.content_3 = content_3
+            post.date = date
 
-                db.session.commit()
-                return redirect('/edit/'+sno)
+            db.session.commit()
+            return redirect('/edit/' + sno)
 
-        post = Posts.query.filter_by(sno=sno).first()
-        return render_template('edit.html', params = params, post = post)
+    post = Posts.query.filter_by(sno=sno).first()
+    return render_template('edit.html', params=params, post=post)
 
 
 
@@ -175,6 +175,5 @@ def contact():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
 
 

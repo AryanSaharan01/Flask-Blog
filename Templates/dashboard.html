@@ -71,11 +71,14 @@
             </div>
             <hr>
 
-            <!-- <H1>Upload a File.!</H1>
+            <H1>Upload a File.!</H1>
             <div class="uploader">
-                We'll add file uploader here
+                <form action="/uploader" method="post">
+                    <input type="file" name="file1">
+                    <button type="submit" class="btn btn-primary  text-uppercase">Submit</button>
+                </form>
             </div>
-            <hr> -->
+            <hr>
 
             <div class="heading">
                 <H1>Welcome... You are logged in!!</H1>
@@ -99,15 +102,13 @@
                         <td>{{post.sno}}</td>
                         <td>{{post.title}}</td>
                         <td>{{post.date}}</td>
-                        <td><a href="/edit/{{post.sno}}">
-                                <button>Edit</button>
-                            </a>
-                        </td>
+                        <td><a href="/edit/{{post.sno}}"><button>Edit</button></a></td>
+                        <td><a href=""><button>Delete</button></a></td>
 
-                        <td><a href="">
+                        <!-- <td><a href="">
                                 <button>Delete</button>
                             </a>
-                        </td>
+                        </td> -->
 
 
                     </tr>
