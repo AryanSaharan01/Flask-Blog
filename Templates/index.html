@@ -1,6 +1,25 @@
 {% extends "layout.html" %}
 {% block body %}
 
+<style>
+    
+    .post-title:hover{
+ color: purple;   
+}
+
+.btn-primary{
+    box-shadow: 0 0 1px #ccc;
+    -webkit-transition-duration: 0.3s;
+    -webkit-box-shadow: 0px 0px 0 0 #31708f inset , 0px 0px 0 0 #31708f inset;
+}
+
+.btn-primary:hover{
+    /* background-color: purple; */
+    -webkit-box-shadow: 90px 0px 0 0 purple inset , -90px 0px 0 0 plum inset;
+
+}
+</style>
+
 <!-- Page Header-->
 <header class="masthead" style="background-image: url( {{ url_for('static', filename= 'assets/img/home-bg.jpg' ) }} )">
     <div class="container position-relative px-4 px-lg-5">
