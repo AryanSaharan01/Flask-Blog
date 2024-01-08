@@ -1,14 +1,20 @@
 from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import secure_filename
 from flask_mail import Mail
 import json
-from datetime import datetime, date
+import os
+from datetime import datetime
 
 with open('config.json', 'r') as c:
     params = json.load(c)["params"]
+
 local_server = True
 app = Flask(__name__)
 app.secret_key = 'super-secret-key'
+app.config['UPLOAD_FOLDER'] = params['upload_location']
+
+
 app.config.update(
     MAIL_SERVER="smtp.gmail.com",
     MAIL_PORT='465',
@@ -124,17 +130,51 @@ def edit(sno):
 
 
 
-
-
-
-
-
 @app.route("/post/<string:post_slug>", methods=["GET"])
 def post_route(post_slug):
     post = Posts.query.filter_by(slug=post_slug).first()
 
     return render_template("post.html", params=params, post=post)
 # http://127.0.0.1:5000/post/first-post..............in order to access post
+
+
+
+
+# @app.route("/uploader" , methods=['GET', 'POST'])
+# def uploader():
+#     if "user" in session and session['user']==params['admin_user']:
+#         if request.method=='POST':
+#             f = request.files['file1']
+#             f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+#             return "Uploaded successfully!"
+
+
+@app.route("/uploader", methods=['GET', 'POST'])
+def uploader():
+    if "user" in session and session['user'] == params['admin_user']:
+        if request.method == 'POST':
+            f = request.files['file1']
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+            return render_template("successfull.html")
+        # Handle other HTTP methods if needed
+    # Handle the case where the user is not logged in
+    return redirect("/")  # Redirect to home if not logged in
+
+
+
+@app.route("/logout")
+def logout():
+    session.pop('user')
+    return redirect('/login')
+
+
+@app.route("/delete/<string:sno>",  methods=["GET", "POST"])
+def delete(sno):
+    if ('user' in session and session['user'] == params['admin_user']):
+        post = Posts.query.filter_by(sno=sno).first()
+        db.session.delete(post)
+        db.session.commit()
+    return redirect('/login')
 
 
 @app.route("/contact", methods=["GET", "POST"])

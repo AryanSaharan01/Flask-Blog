@@ -1,7 +1,21 @@
 {% extends "layout.html" %}
 {% block body %}
 
+<style>
+    /* Apply a border-radius for dispersed corners */
+    .dispersed-image {
+            border-radius: 30px; /* Adjust the value as needed */
+            overflow: hidden; /* Ensure the rounded corners are applied */
+            backdrop-filter: blur(10px); /* Adjust the blur value as needed */
+            box-shadow: 0 0 20px 8px rgb(43 190 238); /* Light blue shadow */
 
+        }
+    /* Optional: Add some padding or margin for better visual appearance */
+    .dispersed-image-container {
+        padding: 10px;
+        display: inline-block;
+    }
+</style>
 
 <!-- Page Header-->
 <header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/all-post.jpg  ')}} ')">
@@ -44,8 +58,12 @@
 
                 <!-- <a href="">{{post.img}}</a> -->
 
-                <a href="/"><img class="img-fluid"
-                        src="{{ url_for('static', filename='assets/img/post-sample-image.jpg') }}" alt="..." /></a>
+                <div class="dispersed-image-container">
+                    <a href="/">
+                        <img class="img-fluid dispersed-image"
+                            src="{{ url_for('static', filename='assets/img/all-post-bg.jpg') }}" alt="..." />
+                    </a>
+                </div>
 
                 <p></p>
                 {{post.content_3}}

@@ -2,15 +2,13 @@ from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 import json
-from datetime import datetime
+from datetime import datetime, date
 
 with open('config.json', 'r') as c:
     params = json.load(c)["params"]
-
 local_server = True
 app = Flask(__name__)
 app.secret_key = 'super-secret-key'
-
 app.config.update(
     MAIL_SERVER="smtp.gmail.com",
     MAIL_PORT='465',
@@ -18,17 +16,12 @@ app.config.update(
     MAIL_USERNAME="flasktutorial00@gmail.com",
     MAIL_PASSWORD="jegh obav jada qyfq"
 )
-
 mail = Mail(app)
-
 if local_server:
     app.config["SQLALCHEMY_DATABASE_URI"] = params["local_uri"]
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = params["prod_uri"]
-
 db = SQLAlchemy(app)
-
-
 class Contact(db.Model):
     sno = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
@@ -36,7 +29,6 @@ class Contact(db.Model):
     phone_no = db.Column(db.String(12), nullable=False)
     msg = db.Column(db.String(120), nullable=False)
     date = db.Column(db.String(12), nullable=True)
-
 class Posts(db.Model):
     sno = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
@@ -51,14 +43,10 @@ class Posts(db.Model):
     content_3 = db.Column(db.String(800), nullable=False)
     date = db.Column(db.String(12), nullable=True)
     # img = db.Column(db.String(1000), nullable=True)
-
-
 @app.route("/")
 def home():
     posts = Posts.query.filter_by().all() [0:3]
     return render_template("index.html", params=params, posts=posts)
-
-
 @app.route("/about")
 def about():
     return render_template("about.html", params=params)
@@ -68,9 +56,7 @@ def login():
 
     if ('user' in session and session['user'] == params["admin_user"]):
         posts = Posts.query.all()
-
         return render_template("dashboard.html", params=params, posts = posts)
-
     if request.method=='POST':
         username = request.form.get("username")
         userpswd = request.form.get("pswd")
@@ -79,27 +65,17 @@ def login():
             session['user'] = username
             posts = Posts.query.all()
             return render_template("dashboard.html", params=params, posts = posts)
-
     return render_template("login.html", params=params)
-
 @app.route("/allposts")
 def allpost():
     posts = Posts.query.filter_by().all()
     return render_template("allposts.html", params=params, posts=posts)
 
 
-@app.route("/post/<string:post_slug>", methods=["GET"])
-def post_route(post_slug):
-    post = Posts.query.filter_by(slug=post_slug).first()
-
-    return render_template("post.html", params=params, post=post)
-# http://127.0.0.1:5000/post/first-post..............in order to access post
-
-
-@app.route("/edit/<string:sno>", methods=['GET', 'POST'])
+@app.route("/edit/<string:sno>",  methods=["GET", "POST"])
 def edit(sno):
-    if "user" in session and session['user'] == params['admin_user']:
-        if request.method == "POST":
+    if ('user' in session and session['user'] == params['admin_user']):
+        if request.method == 'POST':
             box_title = request.form.get('title')
             subheading = request.form.get('subheading')
             written_by = request.form.get('written_by')
@@ -112,8 +88,9 @@ def edit(sno):
             content_3 = request.form.get('content_3')
             date = datetime.now()
 
-        if sno == '0':
-            post = Posts(title=box_title,
+            if sno=='0':
+                post = Posts(
+                    title=box_title,
                     subheading=subheading,
                     written_by=written_by,
                     slug=slug,
@@ -124,29 +101,35 @@ def edit(sno):
                     content_2=content_2,
                     content_3=content_3,
                     date=date
-                         )
-            db.session.add(post)
-            db.session.commit()
-        else:
-            post = Posts.query.filter_by(sno=sno).first()
-            post.title = box_title
-            post.subheading = subheading
-            post.written_by = written_by
-            post.slug = slug
-            post.overview = overview
-            post.heading_1 = heading_1
-            post.content_1 = content_1
-            post.heading_2 = heading_2
-            post.content_2 = content_2
-            post.content_3 = content_3
-            post.date = date
+                )
+                db.session.add(post)
+                db.session.commit()
+            else:
+                post = Posts.query.filter_by(sno=sno).first()
+                post.title = box_title
+                post.subheading = subheading
+                post.written_by = written_by
+                post.slug = slug
+                post.overview = overview
+                post.heading_1 = heading_1
+                post.content_1 = content_1
+                post.heading_2 = heading_2
+                post.content_2 = content_2
+                post.content_3 = content_3
+                post.date = date
+                db.session.commit()
+                return redirect('/edit/'+sno)
+        post = Posts.query.filter_by(sno=sno).first()
+        return render_template('edit.html', params=params, post=post, sno=sno)
 
-            db.session.commit()
-            return redirect('/edit/' + sno)
 
-    post = Posts.query.filter_by(sno=sno).first()
-    return render_template('edit.html', params=params, post=post)
 
+@app.route("/post/<string:post_slug>", methods=["GET"])
+def post_route(post_slug):
+    post = Posts.query.filter_by(slug=post_slug).first()
+
+    return render_template("post.html", params=params, post=post)
+# http://127.0.0.1:5000/post/first-post..............in order to access post
 
 
 @app.route("/contact", methods=["GET", "POST"])
@@ -156,24 +139,16 @@ def contact():
         email = request.form.get("email")
         phone = request.form.get("phone")
         message = request.form.get("message")
-
         entry = Contact(
             name=name, phone_no=phone, msg=message, date=datetime.now(), email=email
         )
-
         db.session.add(entry)
         db.session.commit()
-
         mail.send_message('New message from ' + name,
                           sender=email,
                           recipients=["flasktutorial00@gmail.com"],
                           body=message + "\n" + phone
                           )
-
     return render_template("contact.html", params=params)
-
-
 if __name__ == "__main__":
     app.run(debug=True)
-
-

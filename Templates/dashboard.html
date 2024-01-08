@@ -40,6 +40,24 @@
         margin: 0;
         /* Remove default margin to ensure spacing */
     }
+
+    .uploader {
+        text-align: center;
+    }
+
+    .custom-file-upload {
+        /* border: 2px solid #2196F3; */
+        display: inline-block;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-right: 10px;  /* Add margin for spacing */
+    }
+
+    .custom-file-upload i {
+        margin-right: 5px;
+    }
+
 </style>
 
 <!-- Page Header-->
@@ -61,7 +79,7 @@
         <div class="col-md-10 col-lg-8 col-xl-7">
 
 
-            <H1>⇩..Add new file from here..⇩</H1>
+            <!-- <H1>⇩..Add new file from here..⇩</H1> -->
             <div class="button-container">
                 <a class="btn btn-primary text-uppercase add-post-button" href="/edit/0">Add New Post </a>
                 <a class="btn btn-primary text-uppercase logout-button" href="/logout">Logout </a>
@@ -72,12 +90,24 @@
             <hr>
 
             <H1>Upload a File.!</H1>
-            <div class="uploader">
-                <form action="/uploader" method="post">
+            <!-- <div class="uploader">
+                <form action="/uploader" method="post" enctype="multipart/form-data">
                     <input type="file" name="file1">
-                    <button type="submit" class="btn btn-primary  text-uppercase">Submit</button>
+                    <button type="submit" class="btn btn-primary  text-uppercase">Upload</button>
+                </form>
+            </div> -->
+
+            <div class="uploader">
+                <form action="/uploader" method="post" enctype="multipart/form-data">
+                    <label for="file1" class="custom-file-upload">
+                        <i class="fas fa-cloud-upload-alt"></i> Choose File
+                    </label>
+                    <input type="file" name="file1" id="file1" style="display: none;">
+                    <button type="submit" class="btn btn-primary text-uppercase">Upload</button>
                 </form>
             </div>
+            
+
             <hr>
 
             <div class="heading">
@@ -103,31 +133,19 @@
                         <td>{{post.title}}</td>
                         <td>{{post.date}}</td>
                         <td><a href="/edit/{{post.sno}}"><button>Edit</button></a></td>
-                        <td><a href=""><button>Delete</button></a></td>
+                        <td><a href="/delete/{{post.sno}}"><button>Delete</button></a></td>
 
                         <!-- <td><a href="">
                                 <button>Delete</button>
                             </a>
                         </td> -->
-
-
                     </tr>
 
-
                     {%endfor%}
-
 
                 </tbody>
             </table>
 
-
-
-
-            <!-- <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older
-                    Posts →</a></div>
-            <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Newer
-                    Posts →</a></div> -->
         </div>
     </div>
-</div>
-{% endblock %}
+    {% endblock %}
