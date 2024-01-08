@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from flask_mail import Mail
 import json
+import math
+
 import os
 from datetime import datetime
 
@@ -49,10 +51,14 @@ class Posts(db.Model):
     content_3 = db.Column(db.String(800), nullable=False)
     date = db.Column(db.String(12), nullable=True)
     # img = db.Column(db.String(1000), nullable=True)
-@app.route("/")
-def home():
-    posts = Posts.query.filter_by().all() [0:3]
-    return render_template("index.html", params=params, posts=posts)
+# @app.route("/")
+# def home():
+#     posts = Posts.query.filter_by().all() [0:3]
+#     return render_template("index.html", params=params, posts=posts)
+
+
+
+
 @app.route("/about")
 def about():
     return render_template("about.html", params=params)
